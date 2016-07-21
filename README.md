@@ -1,9 +1,9 @@
 The WANT stack
 =====
-#Webpack doing crazy things to 
-#Angular2 which is interacting with a 
-#NodeJS (+ Express4) api backend, (nearly) all written in
-#Typescript, the sexiest dialect in JavaScript. 
+__Webpack__ doing crazy things to 
+__Angular2__ which is interacting with a 
+__NodeJS__ (+ Express4) api backend, (nearly) all written in
+__Typescript__, the nicest dialect in JavaScript. 
 ###Awful lot left to do here:
 * Get the test config running
 * Get some basic up passing
