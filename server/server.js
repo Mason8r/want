@@ -1,16 +1,32 @@
 "use strict";
-var express = require('express');
-var path = require('path');
-var port = 3000;
-var app = express();
-app.use('/app', express.static(path.resolve(__dirname, 'app')));
-app.use('/libs', express.static(path.resolve(__dirname, 'libs')));
-var renderIndex = function (req, res) {
-    res.sendFile(path.resolve(__dirname, 'index.html'));
-};
-app.get('/*', renderIndex);
-var server = app.listen(port, function () {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log('This express ap is listning on: ' + host + ':' + port);
-});
+
+var express = require('express')
+var webpack = require('webpack')
+var config = require('../webpack.config.js')
+
+var app = express()
+var compiler = webpack(config)
+
+// handle fallback for HTML5 history API
+app.use(require('connect-history-api-fallback')())
+
+// serve webpack bundle output
+app.use(require('webpack-dev-middleware')(compiler, {
+  publicPath: config.output.publicPath,
+  stats: {
+    colors: true,
+    chunks: false
+  }
+}))
+
+// enable hot-reload and state-preserving
+// compilation error display
+app.use(require('webpack-hot-middleware')(compiler))
+
+app.listen(8080, 'localhost', function (err) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://localhost:8080')
+})
